@@ -1,0 +1,2 @@
+#!/bin/bash
+parse TSV head -n 11
