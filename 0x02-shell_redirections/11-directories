@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -type d | ls -A | xargs wc -l
+find . -type d | wc -l
