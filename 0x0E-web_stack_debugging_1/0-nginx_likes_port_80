@@ -1,4 +1,50 @@
-#!/usr/bin/env bash
-# Nginx likes port 80
-sudo sed -i 's/8080/80/g' ../../etc/nginx/sites-enabled/default
-sudo service nginx restart
+#!/usr//bin/env bash
+# Check if Nginx is installed
+
+if ! command -v nginx &> /dev/null; then
+    echo "Nginx is not installed. Installing..."
+    apt-get update
+    apt-get install -y nginx
+else
+    echo "Nginx is already installed."
+fi
+
+# Check if Nginx is running
+if systemctl is-active --quiet nginx; then
+    echo "Nginx is already running."
+else
+    echo "Starting Nginx..."
+    systemctl start nginx
+fi
+
+# Check Nginx configuration for listening on port 80
+config_file="/etc/nginx/sites-available/default"
+if grep -q "listen 80;" "$config_file"; then
+    echo "Nginx is already configured to listen on port 80."
+else
+    echo "Configuring Nginx to listen on port 80..."
+    sed -i 's/listen 80 default_server;/listen 80;/g' "$config_file"
+    systemctl reload nginx
+fi
+
+# Get active IPv4 addresses
+ipv4_addresses=$(ip -4 addr show | grep "inet" | awk '{print $2}' | awk -F'/' '{print $1}')
+
+# Add server blocks to listen on all active IPv4 addresses
+for ip_address in $ipv4_addresses; do
+    server_block="/etc/nginx/sites-available/server_${ip_address}"
+    echo "Configuring Nginx server block for IP address $ip_address..."
+    echo "server {
+    listen $ip_address:80;
+    server_name _;
+
+    # Your server block configuration goes here
+
+}" > "$server_block"
+    ln -s "$server_block" "/etc/nginx/sites-enabled/"
+done
+
+# Restart Nginx to apply changes
+systemctl restart nginx
+
+echo "Nginx configuration is complete. Nginx is now listening on port 80 of all active IPv4 IPs."
