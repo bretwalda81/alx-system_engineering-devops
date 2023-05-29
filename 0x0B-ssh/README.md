@@ -1,1 +1,1 @@
-secur shel
+secur shell
