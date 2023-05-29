@@ -1,2 +1,14 @@
-sed: can't read /etc/nginx/sites-enabled/default: No such file or directory
-nginx: unrecognized service
+Nginx is already installed.
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+Starting Nginx...
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+Nginx is already configured to listen on port 80.
+Configuring Nginx server block for IP address 127.0.0.1...
+ln: failed to create symbolic link '/etc/nginx/sites-enabled/server_127.0.0.1': File exists
+Configuring Nginx server block for IP address 172.17.0.2...
+ln: failed to create symbolic link '/etc/nginx/sites-enabled/server_172.17.0.2': File exists
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+Nginx configuration is complete. Nginx is now listening on port 80 of all active IPv4 IPs.
