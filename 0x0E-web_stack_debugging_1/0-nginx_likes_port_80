@@ -1,4 +1,4 @@
-#!/usr//bin/env bash
+#!/usr/bin/env bash
 # Check if Nginx is installed
 
 if ! command -v nginx &> /dev/null; then
@@ -38,7 +38,9 @@ for ip_address in $ipv4_addresses; do
     listen $ip_address:80;
     server_name _;
 
-    # Your server block configuration goes here
+root /root//alx-system_engineering-devops/0x0E-web_stack_debugging_1;
+index index.html;
+
 
 }" > "$server_block"
     ln -s "$server_block" "/etc/nginx/sites-enabled/"
